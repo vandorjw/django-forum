@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Hello {{ user }}!</h1>
+    
+    {% for f in forums %}
+        <ul>
+            <li>
+                <a href="{{ f.get_absolute_url }}">{{ f }}</a>
+            </li>
+        </ul>
+    {% endfor %}
+    
+    <h1>Create a new forum</h1>
+{% endblock %}

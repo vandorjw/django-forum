@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ forum.name }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ forum.name }}</h1>
+    <p>{{ forum.description }}</p>
+    
+    {% for thread in forum.thread_set.all  %}
+      <ul>
+        <li><a href="{{ thread.get_absolute_url }}">{{ thread.name }}</a>  by {{ thread.user }}</li>
+      </ul>
+    {% endfor %}
+{% endblock %}

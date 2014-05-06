@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load mptt_tags %}
+
+{% block content %}
+    <h1>{{ thread.name }}</h1>
+    <p>{{ thread.description }}</p>
+
+<ul>
+    {% recursetree root_posts %}
+        <li>
+            {{ node.text }}
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+
+{% endblock %}
