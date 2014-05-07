@@ -87,9 +87,28 @@ class ThreadCreate(LoginRequiredMixin, generic.CreateView):
 class ThreadUpdate(LoginRequiredMixin, generic.UpdateView):
     model = Thread
     form_class = ThreadForm
+    # this will be tricky....
 
 
 class PostDetail(generic.DetailView):
     model = Post
     slug_field = 'post_id'
-    slug_url_kwarg = 'post_id'    
+    slug_url_kwarg = 'post_id'
+
+
+class PostCreate(LoginRequiredMixin, generic.CreateView):
+    model = Post
+    form_class = PostForm
+    
+    def get_form_kwargs(self):
+        kwargs = super(PostCreate, self).get_form_kwargs()
+        kwargs['thread'] = Thread.objects.get(
+            forum=Forum.objects.get(forum_slug=self.kwargs['forum_slug']),
+            thread_slug=self.kwargs['thread_slug'])
+        kwargs['user'] = self.request.user
+        return kwargs        
+
+
+class PostUpdate(LoginRequiredMixin, generic.UpdateView):
+    model = Post
+    form_class = ThreadForm

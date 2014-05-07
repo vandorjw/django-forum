@@ -35,6 +35,17 @@ class ThreadForm(forms.ModelForm):
 
 
 class PostForm(forms.ModelForm):
+    def __init__(self, thread, user, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+        self.user = user
+        self.thread = thread
+
+    def save(self, *args, **kwargs):
+        instance = super(PostForm, self).save(commit=False)
+        instance.user = self.user
+        instance.thread = self.thread
+        instance.save()
+        return instance    
     class Meta:
         model = Post
-        exclude = ('thread', )
+        fields = ['text',]

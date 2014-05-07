@@ -26,16 +26,36 @@ urlpatterns = patterns(
     url( # Create a thread
         regex=r'^f/(?P<forum_slug>[-\w]+)/create/$',
         view=views.ThreadCreate.as_view(),
-        name="result_list"
+        name="thread_create"
     ),
+    url( # Update a thread
+        regex=r'^f/(?P<forum_slug>[-\w]+)/(?P<thread_slug>[-\w]+)/update/$',
+        view=views.ThreadUpdate.as_view(),
+        name="thread_create"
+    ),    
     url( # link to a thread
         regex=r'^f/(?P<forum_slug>[-\w]+)/(?P<thread_slug>[-\w]+)/$',
         view=views.ThreadDetail.as_view(),
         name="thread_detail"
     ),
+    url( # create a post
+        regex=r'^f/(?P<forum_slug>[-\w]+)/(?P<thread_slug>[-\w]+)/reply/$',
+        view=views.PostCreate.as_view(),
+        name="thread_reply"
+    ),     
+    url( # create a post
+        regex=r'^f/(?P<forum_slug>[-\w]+)/(?P<thread_slug>[-\w]+)/(?P<post_id>[-\w]+)/reply/$',
+        view=views.PostCreate.as_view(),
+        name="post_reply"
+    ),     
     url( # link to a post
         regex=r'^p/(?P<post_id>[-\w]+)/$',
         view=views.PostDetail.as_view(),
         name="post_detail"
+    ),
+    url( # edit a post
+        regex=r'^p/(?P<post_id>[-\w]+)/update/$',
+        view=views.PostUpdate.as_view(),
+        name="post_update"
     ),    
 )
