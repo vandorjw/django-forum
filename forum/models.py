@@ -74,8 +74,8 @@ class Post(MPTTModel):
     positive = models.SmallIntegerField(default=0, editable=False)
     negative = models.SmallIntegerField(default=0, editable=False)
     
-    class MPTTMeta:
-            order_insertion_by = ['id']    
+#    class MPTTMeta:
+#            order_insertion_by = ['id']    
 
     def __str__(self):
         return self.post_id

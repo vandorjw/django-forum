@@ -2,11 +2,18 @@ from django.contrib import admin
 from forum.models import Forum, Thread, Post
 
 
+
+class ThreadInline(admin.StackedInline):
+    model = Thread
+    extra = 3
+
+
 class ForumAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'forum_slug',
     )
+    inlines = [ThreadInline]
 
 
 class ThreadAdmin(admin.ModelAdmin):

@@ -10,7 +10,7 @@
   <p>{{ thread.description }}</p>
   <a href="{% url 'forum:thread_reply' thread.forum.forum_slug thread.thread_slug %}">Reply to Thread</a>
   <ul>
-    {% recursetree root_posts %}
+    {% recursetree thread_posts %}
         <li>
           {{ node.text }}
           <a href="{% url 'forum:post_reply' thread.forum.forum_slug thread.thread_slug node.post_id %}">Reply</a>

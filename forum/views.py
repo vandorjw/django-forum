@@ -3,6 +3,7 @@ from braces.views import LoginRequiredMixin
 from forum.models import Forum, Thread, Post
 from forum.forms import ForumForm, ThreadForm, PostForm
 
+
 class Index(generic.TemplateView):
     template_name = 'forum/index.html'
     
@@ -63,7 +64,7 @@ class ThreadDetail(generic.TemplateView):
             forum=Forum.objects.get(forum_slug=self.kwargs['forum_slug']),
             thread_slug=self.kwargs['thread_slug'])
         context['thread'] = self.object
-        context['root_posts'] = Post.objects.filter(
+        context['thread_posts'] = Post.objects.filter(
             thread = self.object)
         return context    
 
@@ -106,6 +107,10 @@ class PostCreate(LoginRequiredMixin, generic.CreateView):
             forum=Forum.objects.get(forum_slug=self.kwargs['forum_slug']),
             thread_slug=self.kwargs['thread_slug'])
         kwargs['user'] = self.request.user
+        if 'post_id' in self.kwargs:
+            kwargs['parent'] = Post.objects.get(post_id=self.kwargs['post_id'])
+        else:
+            kwargs['parent'] = None
         return kwargs        
 
 
