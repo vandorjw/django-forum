@@ -1,5 +1,7 @@
 from django import forms
-from forum.models import Forum, Thread, Post
+from forum.models.forum import Forum
+from forum.models.thread import Thread
+from forum.models.post import Post
 
 
 class ForumForm(forms.ModelForm):

@@ -1,6 +1,8 @@
 from django.views import generic
 from braces.views import LoginRequiredMixin
-from forum.models import Forum, Thread, Post
+from forum.models.forum import Forum
+from forum.models.thread import Thread
+from forum.models.post import Post
 from forum.forms import ForumForm, ThreadForm, PostForm
 
 

@@ -1,11 +1,8 @@
 from django.contrib import admin
-from forum.models import Forum, Thread, Post
-
-
-
-class ThreadInline(admin.StackedInline):
-    model = Thread
-    extra = 3
+from forum.models.forum import Forum
+from forum.models.thread import Thread
+from forum.models.post import Post
+from forum.models.repute import PostVote, ThreadVote
 
 
 class ForumAdmin(admin.ModelAdmin):
@@ -13,7 +10,6 @@ class ForumAdmin(admin.ModelAdmin):
         'name',
         'forum_slug',
     )
-    inlines = [ThreadInline]
 
 
 class ThreadAdmin(admin.ModelAdmin):
@@ -22,18 +18,21 @@ class ThreadAdmin(admin.ModelAdmin):
         'user',
         'name',
         'thread_slug',
-        'positive',
-        'negative',
+        'vote_up_count',
+        'vote_down_count',
     )
 
 
 class PostAdmin(admin.ModelAdmin):
     list_display = (
         'post_id',
-        'positive',
-        'negative',
+        'vote_up_count',
+        'vote_down_count',
     )
 
 admin.site.register(Forum, ForumAdmin)
 admin.site.register(Thread, ThreadAdmin)
 admin.site.register(Post, PostAdmin)
+
+admin.site.register(PostVote)
+admin.site.register(ThreadVote)
