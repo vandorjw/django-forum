@@ -1,25 +1,38 @@
 import json
+from datetime import datetime
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+
+from forum.models.repute import PostVote
+from forum.models.post import Post
 
 
+@login_required
 def vote(request):
-    myvalue = request.POST.get("myvalue", "")
-    results = int(myvalue) * 25
+    """
+    allows a user to vote once.
+    """
+    vote = request.POST.get("vote", "")
+    post_id = request.POST.get("id", "")
+
+    u = request.user
+    p = Post.objects.get(post_id=post_id)
+    if vote == "up":
+        v=1
+    elif vote == "down":
+        v=-1
+
+    try: # update a vote, otherwise, create it.
+        pv = PostVote(vote=1,
+                      voted_at=datetime.now(),
+                      user=u,
+                      voted_post=p,)
+        pv.save()
+        status = "success"
+    except:
+        status = "fail"
+
+    results = "%s, %s, %s, %s" % (vote, post_id, u, status)
     reply = json.dumps(results)
     return HttpResponse(reply, mimetype='application/json')
 
-def broken(request):
-    results = {'success':False}
-    if request.method == u'GET':
-        GET = request.GET
-        if GET.has_key(u'pk') and GET.has_key(u'vote'):
-            pk = int(GET[u'pk'])
-            vote = GET[u'vote']
-            poll = Poll.objects.get(pk=pk)
-            if vote == u"up":
-                poll.up()
-            elif vote == u"down":
-                poll.down()
-            results = {'success':True}
-    reply = json.dumps(results)
-    return HttpResponse(reply, mimetype='application/json')

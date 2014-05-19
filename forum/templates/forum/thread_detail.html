@@ -7,11 +7,7 @@
 
 {% block extra_js %}
   <script>
-  function gay(post_id, vote_type){
-    alert("Vote "+ vote_type + " on " + post_id);
-  }
-
-  function vote(){
+  function vote(post_id, vote_type){
     $.ajax({
         url: 'http://localhost:8000/forum/vote/',
         type: "POST",
@@ -19,7 +15,8 @@
         async: "true",
         data:{
             csrfmiddlewaretoken: "{{ csrf_token }}",
-            myvalue: 2,
+            vote: vote_type,
+            id: post_id,
         },
         success: function(data) {
             alert(data);
