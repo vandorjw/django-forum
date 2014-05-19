@@ -35,3 +35,6 @@ class Post(MPTTModel):
             self.post_id = yyyymmdd + "-" + str(uuid4())
         self.modified = datetime.now()
         super(Post, self).save(*args, **kwargs)
+
+    def score(self):
+        return "%s" % (self.vote_up_count - self.vote_down_count)

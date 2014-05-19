@@ -5,17 +5,63 @@
   {{ thread.name }} : {{ thread.forum.name }}
 {% endblock %}
 
+{% block extra_js %}
+  <script>
+  function gay(post_id, vote_type){
+    alert("Vote "+ vote_type + " on " + post_id);
+  }
+
+  function vote(){
+    $.ajax({
+        url: 'http://localhost:8000/forum/vote/',
+        type: "POST",
+        datatype: "json",
+        async: "true",
+        data:{
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            myvalue: 2,
+        },
+        success: function(data) {
+            alert(data);
+        },
+        failure: function(data) { 
+            alert('Got an error dude');
+        }
+    });
+  }
+  </script>
+{% endblock %}
+
 {% block content %}
   <h1>{{ thread.name }}</h1>
   <p>{{ thread.description }}</p>
-  <a href="{% url 'forum:thread_reply' thread.forum.forum_slug thread.thread_slug %}">Reply to Thread</a>
-  <ul>
+  <a class="btn btn-default" href="{% url 'forum:thread_reply' thread.forum.forum_slug thread.thread_slug %}">Reply to Thread</a>
+  <ul class="list-group">
     {% recursetree thread_posts %}
-        <li>
-          {{ node.text }}
-          <a href="{% url 'forum:post_reply' thread.forum.forum_slug thread.thread_slug node.post_id %}">Reply</a>
+        <li class="list-group-item">
+          <form id="{{node.post_id}}">
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    role="button"
+                    value="up"
+                    onclick="vote(this.form.id, this.value)">
+              <span class="glyphicon glyphicon-ok"></span>
+            </button>
+            <button type="button"
+                    class="btn btn-default btn-sm"
+                    role="button" value="down"
+                    onclick="vote(this.form.id, this.value)">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </form>
+          <p><small>{{ node.user }} - {{ node.score }} points - {{ node.modified }}</small></p>
+          <p>{{ node.text }}</p>
+          <a class="btn btn-default btn-sm" 
+             href="{{ node.get_absolute_url }}">Permalink</a>
+          <a class="btn btn-default btn-sm" 
+             href="{% url 'forum:post_reply' thread.forum.forum_slug thread.thread_slug node.post_id %}">Reply</a>
           {% if not node.is_leaf_node %}
-              <ul class="children">
+              <ul class="list-group children">
                   {{ children }}
               </ul>
           {% endif %}
