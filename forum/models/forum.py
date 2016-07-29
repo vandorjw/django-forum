@@ -6,13 +6,34 @@ from django.utils.text import slugify
 
 
 class Forum(models.Model):
-    name = models.CharField(unique=True, max_length=254)
-    forum_slug = models.SlugField(unique=True, max_length=254, editable=False)
+    name = models.CharField(
+        unique=True,
+        max_length=254
+    )
+
+    forum_slug = models.SlugField(
+        unique=True,
+        max_length=254,
+        editable=False,
+    )
     description = models.TextField()
-    created = models.DateField(blank=True, null=True, editable=False)
-    modified = models.DateField(blank=True, null=True, editable=False)
+
+    created = models.DateField(
+        blank=True,
+        null=True,
+        editable=False,
+    )
+
+    modified = models.DateField(
+        blank=True,
+        null=True,
+        editable=False,
+    )
+
     moderators = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, related_name="moderators")
+        settings.AUTH_USER_MODEL,
+        related_name="moderators",
+    )
 
     class Meta:
         app_label = 'forum'

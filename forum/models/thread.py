@@ -31,9 +31,9 @@ class Thread(models.Model):
                                'forum_slug': self.forum.forum_slug,})
 
     def save(self, *args, **kwargs):
-            if not self.id:
-                self.created = datetime.now()
-                yyyymmdd = self.created.strftime('%Y%m%d')
-                self.thread_slug = yyyymmdd + "-" + slugify(self.name)
-            self.modified = datetime.now()
-            super(Thread, self).save(*args, **kwargs)
+        if not self.id:
+            self.created = datetime.now()
+            yyyymmdd = self.created.strftime('%Y%m%d')
+            self.thread_slug = yyyymmdd + "-" + slugify(self.name)
+        self.modified = datetime.now()
+        super(Thread, self).save(*args, **kwargs)

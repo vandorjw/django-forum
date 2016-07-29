@@ -17,6 +17,7 @@ class ForumForm(forms.ModelForm):
  
     class Meta:
         model = Forum
+        fields =['name', 'description', 'moderators', ]
 
 
 class ThreadForm(forms.ModelForm):
